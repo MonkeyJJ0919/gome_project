@@ -1,20 +1,22 @@
+一、项目结构
 1、zookeeper、mq、mysql多数据源、swagger等均以注解方式来配置
 
 2、使用@ImportResource("classpath:dubbo-customer.xml")，在主启动类Launcher引入dubbo
 
-3、PermissionController：菜单、权限管理
+二、权限相关
+1、PermissionController：菜单、权限管理
 （1）相关表：t_manage_permission
 
 （2）功能：查询菜单、权限列表
 
-4、RoleController：角色管理
+2、RoleController：角色管理
 （1）相关表：t_manage_role、t_manage_role_permission
 
 （2）功能：
     1）角色的增删改查
     2）角色与菜单、权限绑定
 
-5、UserController：用户管理
+3、UserController：用户管理
 （1）相关表：t_manage_user、t_manage_user_role
 
 （2）功能：
@@ -22,12 +24,12 @@
     2）用户菜单查询
     3）用户的权限查询
 
-6、CaptchController：验证码服务
+4、CaptchController：验证码服务
 （1）功能：
     1）获取验证码：使用google的kaptcha，先获取text，再将text嵌入image，将图片用Base64加密，然后自定义key将text放入缓存，将图片返回前端，
                 key通过cookie返回给前端。
 
-7、SsoAuthorizeController：单点登录服务
+5、SsoAuthorizeController：单点登录服务
 （1）相关表：t_manage_user
 
 （2）功能：
@@ -35,3 +37,108 @@
     2）配置用户角色：将从基础平台获取的用户数据插入t_manage_user，并与角色绑定
     3）登录接口：调用单点登录的服务来登录。存在问题：在t_manage_user表中，以login_error来存储登录错误次数，限制为5次，代码中未考虑到并发问题。
     4）登出接口：调用单点登录的服务来注销。
+
+6、ActivityManageController：活动相关服务
+（1）相关表：t_activity、t_activity_item
+
+（2）功能：
+    1）活动的增删改查
+    2）活动的开始、停止
+
+7、AdvertisementManageController：启动页广告服务
+（1）相关表：t_advertisement、t_advertisement_img
+
+（2）功能：
+    1）广告的增删
+    2）广告的启用、禁用
+
+8、HomePageAdvController：首页资源位广告服务
+（1）相关表：t_app_advertise、t_app_user_advertise
+
+（2）功能：
+    1）首页资源位广告的添加、查询
+    2）首页资源位广告的手动结束
+
+9、HomePopController：首页弹窗广告服务
+（1）相关表：t_manage_pop、t_manage_pop_user
+
+（2）功能：
+    1）首页弹窗广告的增加、查询
+    2）首页弹窗广告的人工结束
+
+10、ArticleManagementController：文章管理
+（1）相关表：bussiness_article_type_new（文章类型表）、bussiness_article_new（文章表）、bussiness_article_detail_new（文章详情表）、
+            bussiness_article_user_new（文章限定用户表）
+
+（2）功能：
+    1）文章类型的增删改查、动态排序
+    2）文章内容、规则的增删改查
+    3）文章的立即下线
+
+11、BindRecordManageController：设备配网相关服务
+（1）相关表：t_bind_record（配网记录表）、t_bind_feedback（配网反馈表）
+
+（2）功能：
+    1）查询设备配网列表
+    2）查询设备反馈列表
+    3）导出配网列表
+
+
+12、FeedbackManageController：app用户反馈服务
+（1）相关表：user_app_feedback（用户反馈表）、user_app_feedback_record（反馈对话记录表）、
+            user_feedback_video_file（用户反馈视频表）
+
+（2）功能：
+    1）用户反馈列表查询
+    2）app用户提交用户反馈：用户反馈信息包含图片、视频。图片、视频时先传到fdfs上返回文件的id，数据库存储的时图片或视频的id
+    3）运营回复用户反馈：回复信息追加到user_app_feedback_record，入库成功后进行消息推送。
+    4）用户、运营对话列表查询。
+
+13、FoodManagementController：食材管理服务
+（1）相关表：user_food_management、food_template、food_category
+
+（2）功能：
+    1）食材分类的增删改查
+    2）食材模板的增删改查
+    3）用户食材列表查询
+
+14、HealthRuleController：健康监测服务
+（1）相关表：d_health_rule、d_health_rule_item
+
+（2）功能：
+    1）新增、更新健康监测（配置到型号）
+    2）健康监测列表
+    3）健康监测的使用：大数据将设备的运行时间跑到一个表中，前端通过接口获得设备运行规则与配置的健康监测规则进行比较从而进行监测。
+
+15、MessagePushController：消息推送服务
+（1）相关表：bussiness_push_new、d_health_rule_item
+
+（2）功能：
+    1）消息推送的增删改查
+    2）重难点在于定时任务中自定义规则的匹配：
+        消息开始时间、结束时间、起始推送时间、结束推送时间、重复频次（每周一、二、三、四、五、六、日）
+
+16、EquipmentOperatingController：温馨服务
+（1）相关表：d_warm_service
+
+（2）功能：
+    1）温馨服务的增删改查
+
+17、TroubleOrderManageController：故障订单（app对应的入口为报装报修）
+（1）相关表：t_trouble_order、t_trouble_order_detail
+
+（2）功能：
+    1）查看订单列表
+
+18、WeatherManageController：天气服务
+
+
+
+19、WholeHouseController：全无定制服务
+
+
+三、积分相关
+
+
+
+四、数据分析相关
