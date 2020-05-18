@@ -131,14 +131,65 @@
     1）查看订单列表
 
 18、WeatherManageController：天气服务
+（1）相关表：t_weather_rule、t_weather_rule_item
 
+（2）功能：
+    1）天气规则的增删改查
 
+19、WholeHouseController：全屋定制服务
+（1）相关表：t_house_customization
 
-19、WholeHouseController：全无定制服务
-
+（2）功能：
+    1）全屋定制列表获取
 
 三、积分相关
+1、ExchangeRecordController：积分兑换记录服务
+（1）相关表：exchange_record
 
+（2）功能：
+    1)获取兑换记录
 
+2、ProductManagementController：商品管理
+（1）相关表：exchange_rule、exchange_rule_item、product、score_product
+
+（2）功能：
+    1）积分规则的添加、编辑
+
+    2）商品列表、商品编辑
+
+3、ScoreImportController：批量操作积分
+（1）相关表：score_import、score_import_item、score、score_detail
+
+（2）功能：
+    1）批量增加、扣减用户积分
+
+4、ScoreMessageController：积分兑换消息推送服务
+（1）相关表：user_message、message_detail
+
+（2）功能：
+    1）用户兑换商品成功后，进行系统消息推送
 
 四、数据分析相关
+1、HomePageController:首页数据概览
+（1）相关表：summary（用户、设备、品类汇总数据）、app_device（app下载、安装、配网等相关数据）、device_product
+
+（2）功能：
+    1）数据展示
+
+2、AppDataController：app相关数据
+（1）相关表：app_user_summary、app_user_details、app_user_count_by_timeinterval、app_user_timeduration、app_user_timeduration_detail
+
+3、DeviceDataController：设备相关数据
+（2）相关表：user_opt_log（设备操作日志）、t_distribution_network_log（设备配网日志）、active_device_summary、active_device_details
+
+
+4、UserDataController：用户相关数据
+（1）相关表：backuser_product_summary（回流用户）、back_user_details（回流用户明细）
+
+
+五、mq消费
+（1）设备的上下线信息处理：
+    1）相关表：device_online
+
+
+六、定时任务
