@@ -1,0 +1,91 @@
+一、架构分析：采用无xml的SpringMvc配置，通过tomcat启动项目
+1、DispatcherServlet的配置
+    WebApplication继承AbstractAnnotationConfigDispatcherServletInitializer
+
+    关于 AbstractAnnotationConfigDispatcherServletInitializer
+
+    各位好，如果以上介绍不过瘾，这里是复杂来说…
+    在 Servlet 3.0（Tomcat7及以上版本） 环境下，Servlet 容器会在 classpath 下搜索实现了 javax.servlet
+    .ServletContainerInitializer 接口的任何类，找到之后用它来初始化 Servlet 容器。
+    Spring 实现了以上接口，实现类叫做 SpringServletContainerInitializer， 它会依次搜寻实现了 WebApplicationInitializer的任何类，
+    并委派这个类实现配置。之后，Spring 3.2 开始引入一个简易的 WebApplicationInitializer 实现类，这就是 AbstractAnnotationConfigDispatcherServletInitializer。
+    所以 SpittrWebAppInitializer 继承 AbstractAnnotationConfigDispatcherServletInitializer之后，也就是间接实现了 WebApplicationInitializer，
+    在 Servlet 3.0 容器中，它会被自动搜索到，被用来配置 servlet 上下文。
+
+    @javax.annotation.Generated(value = "class io.swagger.codegen.languages.SpringMVCServerCodegen", date = "2016-06-01T01:58:27.457Z")
+    public class WebApplication extends AbstractAnnotationConfigDispatcherServletInitializer {
+
+        @Override
+        protected Class<?>[] getRootConfigClasses() {
+    //        return new Class[] { IntegralConfig.class};
+            return new Class[] { MybatisConfig.class, ScoreConfig.class };
+        }
+
+        @Override
+        protected Class<?>[] getServletConfigClasses() {
+            return new Class<?>[] { WebMvcConfiguration.class, };
+        }
+
+        @Override
+        protected String[] getServletMappings() {
+            return new String[] { "/" };
+        }
+
+        @Override
+     protected Filter[] getServletFilters() {
+                  return new Filter[]{
+                          new MyFilter()
+                  };
+            }
+        @Override
+        public void onStartup(ServletContext servletContext) throws ServletException {
+
+    //    	DelegatingFilterProxy filter = new DelegatingFilterProxy();
+    //
+    //    	Dynamic f = servletContext.addFilter("springSecurityFilterChain", filter);
+    //    	EnumSet<DispatcherType> dispatcherTypes = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ERROR);
+    //    	f.addMappingForUrlPatterns(dispatcherTypes, true, "/*");
+            ClassPathXmlApplicationContext context =
+                    new ClassPathXmlApplicationContext("classpath*:gcache.xml");
+            ApiConstantsConfig apiConstantsConfig = (ApiConstantsConfig) context.getBean("apiConstantsConfig");
+            EnvironmentConfigCache.setApiConstantsConfig(apiConstantsConfig);
+        	super.onStartup(servletContext);
+        }
+    }
+
+
+2、SpringMvc的配置：WebMvcConfiguration继承了WebMvcConfigurationSupport
+
+    @Configuration
+    @ComponentScan(basePackages = "net.machtalk.xcloud.score")
+    public class WebMvcConfiguration extends WebMvcConfigurationSupport {
+        @Override
+        public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+            configurer.enable();
+        }
+
+        @Bean
+        public InternalResourceViewResolver getInternalResourceViewResolver() {
+            InternalResourceViewResolver internalResourceViewResolver = new InternalResourceViewResolver();
+            internalResourceViewResolver.setPrefix("/WEB-INF/views/");
+            internalResourceViewResolver.setSuffix(".jsp");
+            return internalResourceViewResolver;
+        }
+
+    //    @Bean
+    //    public CommonsMultipartResolver multipartResolver() throws IOException {
+    //		Resource resource = new ClassPathResource("/faceimage.properties");
+    //		Properties props = PropertiesLoaderUtils.loadProperties(resource);
+    //
+    //    	CommonsMultipartResolver m = new CommonsMultipartResolver();
+    //    	m.setUploadTempDir(new FileSystemResource(props.getProperty("faceimage.dir")));
+    //    	m.setMaxUploadSize(10240000);
+    //    	return m;
+    //    }
+    }
+
+    （1）Spring boot 中的WebMvcConfigurerAdapter、WebMvcConfigurationSupport与WebMvcConfigurer区别
+        WebMvcConfigurerAdapter已经过时，不再维护。
+        WebMvcConfigurationSupport与WebMvcConfigurerAdapter、接口WebMvcConfigurer处于同一个目录下，
+        并且拥有更多的方法与属性（WebMvcConfigurer中有的方法，此类中全都存在）
+
