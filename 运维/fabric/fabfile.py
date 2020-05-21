@@ -69,12 +69,19 @@ def project_deploy(project_name, port):
     deploy_dir = env.deploy_basepath + project_name+'/'
     exec_dir = deploy_dir + env.exec_dir_name
     jar_name =  project_name + env.postfix
+    //创建本地文件
     project_init_dir(deploy_dir,tmp_path, project_name)
+    //本地从git拉取代码
     project_update(env.project_parent_dir)
+    //本地打包
     project_package(env.project_parent_dir, project_name)
+    //停止远程服务
     project_port_stop(port)
+    //备份远程jar包，并将原有jar清除
     project_clean(exec_dir,deploy_dir)
+    //将本地jar传输到远程
     project_put(env.project_parent_dir+'target/'+jar_name, exec_dir+'')
+    //启动远程项目
     project_start(exec_dir, jar_name, tmp_path, project_name)
 
 @task
