@@ -1,0 +1,1 @@
+cd /opt/xcloud/500openplatform/ps-penguin（跳转至相应得目录） &&  source /usr/local/fabenv/bin/activate（启动fab环境） && fab ps_penguin（执行fab脚本）
