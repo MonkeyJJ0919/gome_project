@@ -1,0 +1,10 @@
+yunzhilogserver
+第一：提供接口，app埋点操作，通过接口上传数据（针对不同业务）
+第二：处理过程，
+1.（APP数据）HTTP接口收到数据后，将app数据做ETL，将数据放入kafka中，在同一应用内监听kafka topic，将数据放入hujing,hujing主要提供jar即程序api.
+虎鲸的表需要创建或者添加新的字段，需要找郎军。
+历史问题：kafka的数据会同步到druid.实时内存时序数据库
+app 数据 全部进入hujing original.iot_smart_app
+设备数据（长连接），长连接直接放入kafka 对应topic,yunzhilogserver 监听这些topic,目前这些数据ETL，直接入kudu。
+druid 设备数据 ：yunzhiDevice800.
+第三：kudu分区 定时任务 每周日 会执行一下创建下一周的分区
