@@ -1,4 +1,4 @@
-yunzhilogserver
+一、yunzhilogserver
 第一：提供接口，app埋点操作，通过接口上传数据（针对不同业务）
 第二：处理过程，
 1.（APP数据）HTTP接口收到数据后，将app数据做ETL，将数据放入kafka中，在同一应用内监听kafka topic，将数据放入hujing,hujing主要提供jar即程序api.
@@ -8,3 +8,19 @@ app 数据 全部进入hujing original.iot_smart_app
 设备数据（长连接），长连接直接放入kafka 对应topic,yunzhilogserver 监听这些topic,目前这些数据ETL，直接入kudu。
 druid 设备数据 ：yunzhiDevice800.
 第三：kudu分区 定时任务 每周日 会执行一下创建下一周的分区
+
+
+
+二、项目分析
+1、ArticleH5Filter：用于处理文章H5埋点，经过ETL放到kafka
+   YunZhiFilter：用于处理app各种埋点
+
+2、YzKafkaListener：监听kafka 中app数据，包括绑定、登录等信息放入hujing。
+   YzKafkaToKuduListener：监听kafka设备数据放入kudu。
+
+3、ArticleController：提供给H5页面查询文章浏览数的统计接口
+   GMItemController：增加一个接口接收sap推送过来国美智能在线商品数据
+
+4、ScheduledTasks：定时任务
+    （1）每分钟执行一次，获取用户访问时长
+    （2）每30分钟加载一次bussiness_model表里的数据到缓存中
