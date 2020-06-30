@@ -1,0 +1,38 @@
+一 功能
+1 datasource zookeeper服务监控
+    (1)@EnableHystrixDashboard
+    (2)HealthAggregator
+
+2 app启动页管理
+
+
+3 食谱管理
+
+
+4 购物分区管理
+
+
+5 app版本管理
+
+
+6 全局异常处理
+(1)类注解:@ControllerAdvice
+(2)方法注解:@ExceptionHandler//处理所有异常
+       @ResponseBody
+
+
+7 druid监控
+(1)使用 StatViewServlet
+(2)例:
+     @WebServlet(urlPatterns="/druid/*",
+             initParams={
+     //                @WebInitParam(name="allow",value="192.168.1.72,127.0.0.1"),// IP白名单 (没有配置或者为空，则允许所有访问)
+                     @WebInitParam(name="deny",value="192.168.1.73"),// IP黑名单 (存在共同时，deny优先于allow)
+                     @WebInitParam(name="loginUsername",value="admin"),// 用户名
+                     @WebInitParam(name="loginPassword",value="123456"),// 密码
+                     @WebInitParam(name="resetEnable",value="false")// 禁用HTML页面上的“Reset All”功能
+             }
+     )
+     public  class DruidStatViewServlet extends StatViewServlet{
+         private static final long serialVersionUID = 1L;
+     }
