@@ -4,16 +4,16 @@
     (2)HealthAggregator
 
 2 app启动页管理
+（1）库表：app_startpage
 
+3 食谱管理（app上没有）
+（1）库表：cook_collect、cook_history、cook_menu
 
-3 食谱管理
-
-
-4 购物分区管理
-
+4 购物分区管理（目前app使用的是国美商城的 链接）
+（1）库表：mall_partition_master（分区）、mall_partition_details（分区中的商品明细）
 
 5 app版本管理
-
+（2）库表：version_app
 
 6 全局异常处理
 (1)类注解:@ControllerAdvice
@@ -21,7 +21,7 @@
        @ResponseBody
 
 
-7 druid监控
+7 druid连接池--内置监控页面
 (1)使用 StatViewServlet
 (2)例:
      @WebServlet(urlPatterns="/druid/*",
@@ -36,3 +36,15 @@
      public  class DruidStatViewServlet extends StatViewServlet{
          private static final long serialVersionUID = 1L;
      }
+
+8、数据源采用全注解配置
+
+9、自定义拦截器、自定义过滤器、自定义servlet、自定义监听器（session监听、servletContext监听）
+
+10、Sring-boot的健康监测：spring-boot-starter-actuator
+（1）DataBaseHealthIndicator implements HealthIndicator： 数据库状态监控
+（2）ZKStatusHealthIndicator implements HealthIndicator： zookeeper状态监控
+（3）spring-boot-starter-actuator这个库让我们可以访问应用的很多信息，包括：/env、/info、/metrics、/health、/beans、
+     /autoconfig、等。现在运行程序，然后在浏览器中访问：http://localhost:8080/health
+
+11、AOP切面：拦截Controller的方法
