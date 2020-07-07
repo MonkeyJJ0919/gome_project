@@ -1,0 +1,19 @@
+select * from device where device_id ='0300117468c63abb3236';
+
+select * from device_pin where device_id ='0300117468c63abb3236';
+
+select * from bussiness_model where gid ='fyagky';
+
+select * from bussiness_company where company_id='098';
+
+select * from bussiness_product where product_id='058';
+
+select * from device_attr where bus_model_id=31702;
+
+third_cloud_device_attr 
+ 
+third_cloud_device_attr_enum
+
+select * from brand;
+
+select * from brand;

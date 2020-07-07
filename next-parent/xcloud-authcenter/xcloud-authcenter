@@ -28,7 +28,7 @@
 （3）两者相较而言，Blowfish更安全一些。常见的加密算法：MD5，SHA-1，HMAC，DES/AES，RSA 和 ECC 这几种加密算法和代码示例。
 
 
-4、UserAuthController：开放平台的用户登录（微信、qq、微博登录）
+4、UserAuthController：app的用户登录（第三方登录已经弃用）
 （1）userAuth方法登录逻辑：
     1）参数：用户名、密码（AES加密）、token、kickType;//同一互踢类型的客户端最多只能存在一个 1：手机客户端（Andriod、IOS、WinPhone） 2：微信  3：WEB端或PC端  4：Android 和IOS PAD客户端，默认为1
     2）首先AES解密参数中的密码，还原为原密码。
@@ -43,3 +43,56 @@
 （2）增加的登录版本：
     1）调用dingxiang接口进行token登录验证。
     2）然后调用（1）的逻辑
+
+（3）用户注册：
+    1）校验手机号及验证码
+    2）手机号+ip 进行风控
+    3）调用大账号的注册接口
+
+（4）忘记密码
+
+（5）修改密码
+
+（6）第三方登录：
+    1）调用第三方登录接口
+    2）保存user
+    3）保存userSns（第三方登录信息）
+    4）加积分
+    5）保存用户登录信息到缓存
+
+
+（7）第三方登录绑定手机号：调用第三方绑定接口
+
+（8）TV扫码登录、App扫码登录
+    1）缓存放uuid、sign
+
+
+（9）手机验证码登录
+    1）参数校验
+    2）验证码校验
+    3）根据手机号校验大账号是否存在该用户
+    4）不存在该用户则注册用户，调用大账号的注册接口，注册成功 给开放平台发送邀请mq消息
+    5）如果存在用户，则设置isNew为0.
+    6）调用短信验证码快速登录的接口
+    7）根据手机号或gomeId查询用户信息，没有则创建新的用户。
+    8）查询用户账号和密码（userAuth)，没有则新建
+    9）校验是否是一账通、查询是否被推荐
+    10）账号、密码、token放缓存
+
+5、WechatSignature：微信相关接口
+（1）微信签名认证：
+    1）调用微信接口获取token，放缓存并设置过期时间
+    2）调微信接口获取ticket，放缓存并设置过期时间
+    3）ticket+uuid+timestamp+url，BASE16加密获得签名
+
+
+二、架构
+1、swagger2
+（1）@Swagger2注解配置类
+（2）Controller中使用@Api、@ApiOperation注解
+
+2、feign的配置
+
+3、jdbc框架使用JPA
+（1）JpaRepository,CrudRepository
+（2）@Query

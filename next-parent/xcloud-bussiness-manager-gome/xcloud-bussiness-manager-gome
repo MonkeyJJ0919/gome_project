@@ -1,0 +1,23 @@
+一、功能
+1、AppUserController：会员管理
+（1）查看app用户列表：user、application_auth、user_member、dim_province、dim_city、dim_district
+（2）查看app用户下的设备：user_device、 device、bussiness_model 、bussiness_company、bussiness_product、brand
+（3）导出app用户excel
+
+2、ArticleCallController：文章管理
+（1）文章类型：增、删、改、查  bussiness_article_type
+（2）文章：bussiness_article、bussiness_article_detail
+    1）分页查询
+    2）按id查询文章
+    3）新增文章
+    4）修改文章
+    5）删除文章
+    6）文章上线
+    7）文章下线
+    8）文章置顶
+    9）文章取消置顶
+    10）文章复制：即新增一条与选中文章一模一样的文章，状态为待发布
+    11）PDF导出、excel导出
+
+二、缺点：
+1、调用混乱：http调用其他接口+其他接口再feign调用其他接口
