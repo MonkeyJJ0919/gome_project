@@ -1,0 +1,33 @@
+1、AppUserController app用户的管理
+    （1）app用户列表
+    （2）app用户的设备列表
+    （3）导出用户
+
+2、AuditMaterialController  开放平台审核资料管理
+    （1）查询审核资料列表  bussiness_model.audit_material_fid
+
+3、BrandCompanyController  品牌厂商管理
+    （1）  品牌、厂商的增删改查
+
+4、BusinessStatController  数据分析报表
+    （1）品类分析
+    （2）品牌分析
+    （3）设备分析
+
+5、BusOptLogController 业务系统操作日志管理
+    （1） 操作日志查询（用户只能看到具有权限菜单的日志）：bussiness_opt_log 、bussiness_user 、dim_platform dp 、 bussiness_menu 、bussiness_api_auth baa
+    （2）操作日志保存
+    （3）获取菜单
+
+6、BussinessApiAuthController 菜单权限管理
+    （1）获取对菜单具有的权限
+
+7、BussinessAppStartNewsController app启动页管理  app_startpage
+    （1）增、删、改、查 、列表
+
+8、BussinessAppVersionController  app版本管理   version_app
+    （1）版本的增、删、改、查
+
+9、BussinessBrandController 品牌管理
+
+10、BussinessCodeController  推荐码管理  bussiness_code
