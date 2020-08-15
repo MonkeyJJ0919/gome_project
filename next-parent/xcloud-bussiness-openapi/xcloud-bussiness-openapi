@@ -1,3 +1,5 @@
+国美智造管理平台
+
 1、AppUserController app用户的管理
     （1）app用户列表
     （2）app用户的设备列表
@@ -31,3 +33,102 @@
 9、BussinessBrandController 品牌管理
 
 10、BussinessCodeController  推荐码管理  bussiness_code
+
+11、BussinessFeedbackController  用户意见反馈
+    （1）获取意见反馈
+    （2）更新意见反馈
+
+12、BussinessMenuAuthController   菜单权限分配
+    （1）保存某个角色的菜单权限
+    （2）加载某个角色的菜单权限
+
+13、BussinessMenuController  菜单管理
+    （1）增删改查
+
+14、BussinessModelController 型号的管理
+    （1）型号的增、删、改、查
+    （2）开放平台对型号的审核
+
+15、BussinessModelProductIdController  商城设备配网映射信息   bussiness_model_productid
+    （1）映射信息的增、删、改、查
+
+16、BussinessMyserviceController  我的服务管理  bussiness_myservice
+
+17、BussinessProductController  产品信息管理
+
+18、 bussiness_recommend_device 推荐商品管理
+
+19、BussinessRoleController  角色管理
+
+20、BussinessUserController 用户管理
+    （1）用户增、删、改、查
+    （2）角色分配
+
+21、CentralizedUserController             bussiness_centralize_user
+
+22、CompanyController  厂商管理
+
+23、DataSummaryController  数据概要
+    （1）关键数据
+    （2）日图表
+    （3）月图表
+
+24、DevCustomerController  开发者的管理   bussiness_dev_user
+    （1）增、删、改、查
+    （2）审核
+
+
+25、DeviceAlarmTemplatesController  设备告警模板
+    （1）增、删、改、查
+    （2）开放平台的审核
+
+26、DeviceAttrControlController   设备属性管理
+
+27、DeviceAttrTemplatesController  设备属性模板管理
+
+28、DeviceController 设备管理
+
+29、DeviceIntroController  设备配网引导页管理  device_intro
+
+30、DeviceManualController  设备手册管理  device_manual
+
+31、DeviceModuleVersionController  设备模块版本管理 device_module_version
+
+
+32、DeviceTroubleController  故障码管理
+    （1）增、删、改、查
+    （2）开放平台审核
+
+33、DeviceTypesController 设备层级列表管理   device_types2
+
+34、DeviceVersionController 设备固件版本管理
+    （1）增删改查
+    （2）审核
+
+35、DimThirdCloudController 第三方云管理
+
+36、H5ResourceController  H5资源管理
+
+37、LinkageTempleteController  推荐联动管理  user_linkage_templete、user_linkage_condtion_templete、user_linkage_action_templete
+
+38、LoginController  登录管理
+
+39、MessagePushConfigController 消息推送配置管理
+
+40、OnlineInfoController  在线信息管理  在mongoDB中
+    （1）设备在线信息
+    （2）用户在线信息
+    （3）网关在线信息
+
+41、PartitionMasterController  商城模块分区管理  mall_partition_master
+
+
+42、ProductTemplatesController  品类属性模板  product_template product_template_enum
+
+43、QrcodeInfoController  二维码信息管理
+
+44、ThirdCloudDeviceAttrController 第三方云设备属性管理
+
+45、UserOptLogController 用户操作日志管理
+
+46、WifiModelInfoController  wifi模组信息管理  wifi_model_info  bus_model_wifi_model_relation
