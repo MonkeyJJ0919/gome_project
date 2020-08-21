@@ -1,0 +1,33 @@
+1、Cloud2CloudCallbackController  云对云回调地址入口
+    （1）回调地址
+    （2）状态上报
+
+         ******  华为设备状态上报 使用了spring的事件发布机制  applicationContext.publishEvent()，来进行设备的新增、删除、状态、基本信息等状态的上报
+
+2、ExtendCloudController  外部云接口调用
+    （1）直接调用外部的云的接口（数据加密、鉴权、接口调用）
+
+3、HikvisionCloudController 萤石接口调用
+    （2）萤石告警消息
+
+4、JYLXController  精益理想接口调用
+    （1）发送seed
+    （2）获取精益理想用户下的设备列表
+    （3）获取网关下的子设备列表
+    （4）子设备一键布防，即布防属性的设置。（枚举，开关属性  需要国美属性与第三方云属性转换）
+
+5、LocalCloudController  本地云（国美自己的云），调用其他云
+    （1）token获取
+    （2）查询设备状态，向cs发送设备状态
+    （3）绑定设备，调用第三方云
+    （4）解绑设备，调用第三方云
+    （5）查询设备最新状态，调用第三方云
+    （6）控制设备，调用第三方云
+
+6、ThirdCloudController  对第三方云提供的接口
+    （1）获取第三方云设备列表，从mongo中获取
+    （2）解除与第三方云平台的绑定关系
+        1）取消设备订阅
+        2）调用第三方云接口解除绑定
+        3）删除dimuserToken
+        4）删除mongo中的第三方云设备
