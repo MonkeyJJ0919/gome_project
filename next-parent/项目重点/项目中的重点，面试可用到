@@ -1,0 +1,21 @@
+一、xcloud-cloud2cloud
+1、HaierDataReportController  海尔云
+    （1）设备数据上报  （redis中存储set数据 ，设备did为key，设备绑定的用户列表为value）
+
+2、华为设备状态上报 使用了spring的事件发布机制  applicationContext.publishEvent()，来进行设备的新增、删除、状态、基本信息等状态的上报
+
+3、FastjsonEncoder  编码器使用单例模式
+
+4、可以把所有云对云的请求，优化为 模板方法模式
+
+5、科大讯飞语音控制接口逻辑很复杂，关键是各种属性的转换
+
+
+二、xcloud-job
+1、消息推送，使用类注解，来减少if的判断，从而进行不同类型的的消息的分发，见图片 1-1.
+    MessagePushJob类pushDispacher方法
+
+二、项目缺点：
+    （1）一个方法中的逻辑太长，代码达到几百行
+    （2）微服务的服务之间调用混乱
+

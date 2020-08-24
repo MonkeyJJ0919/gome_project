@@ -31,3 +31,49 @@
         2）调用第三方云接口解除绑定
         3）删除dimuserToken
         4）删除mongo中的第三方云设备
+
+7、TuyaCloudController  涂鸦云
+    （1）token获取
+    （2）获取设备配网结果
+    （3）获取子设备配网结果
+    （4）允许子设备发现
+    （5）解绑子设备
+
+8、YunmiCloudController 云米云接口调用
+    （1）token获取
+    （2）云米第三方APP扫码登录接口
+    （3）云米第三方APP扫码登录--生成二维码（暂时使用，后续删掉）
+
+9、CateyeDataReportController  猫眼设备数据上报
+    （1）猫眼门铃提醒、猫眼人体感应，先给云对云推送（放入消息队列），给自己的消息队列推送
+
+
+10、HaierCloudController  海尔云
+    （1）使用URLConnection从日志中读取海尔设备上报数据，并存储
+
+
+11、HaierDataReportController  海尔云
+    （1）设备数据上报  （redis中存储set数据 ，设备did为key，设备绑定的用户列表为value）
+    （2）告警消息推送
+
+12、HaierUserAuthController  海尔验证
+    （1）海尔用户验证
+    （2）验证授权码
+
+13、HisenseDataReportController 海信
+    （1）设备状态上报
+    （2）设备在线状态分发
+
+14、HuaweiAuthController  华为权限认证
+    （1）生成token（token 为uuid 然后进行md5加密）
+
+
+15、IflytekAnalysisController  科大讯飞语音解析接口
+    （1）语音控制：
+            1）语音与属性的匹配
+            2）如果是云对云的设备则发给云对云
+                如果是云对端的设备 ，则发给dispatcher进行下发
+
+16、LockDataReportController 门锁数据上报
+
+17、MideaDataReportController  美的数据上报
