@@ -15,7 +15,41 @@
 1、消息推送，使用类注解，来减少if的判断，从而进行不同类型的的消息的分发，见图片 1-1.
     MessagePushJob类pushDispacher方法
 
-二、项目缺点：
+
+三、xcloud-common-utils
+1、使用反射+自定义注解的方式，进行请求参数的校验
+
+2、属性转Map方法，也是用反射
+    public static Object convertMap(Class type, Map map)
+                throws IntrospectionException, IllegalAccessException,
+                InstantiationException, InvocationTargetException {
+
+            BeanInfo beanInfo = Introspector.getBeanInfo(type); // 获取类属性
+            Object obj = type.newInstance(); // 创建 JavaBean 对象
+
+            // 给 JavaBean 对象的属性赋值
+            PropertyDescriptor[] propertyDescriptors =  beanInfo.getPropertyDescriptors();
+            for (int i = 0; i< propertyDescriptors.length; i++) {
+                PropertyDescriptor descriptor = propertyDescriptors[i];
+                String propertyName = descriptor.getName();
+
+                if (map.containsKey(propertyName)) {
+                    // 下面一句可以 try 起来，这样当一个属性赋值失败的时候就不会影响其他属性赋值。
+                    Object value = map.get(propertyName);
+
+                    Object[] args = new Object[1];
+                    args[0] = value;
+
+                    descriptor.getWriteMethod().invoke(obj, args);
+                }
+            }
+            return obj;
+        }
+
+3、单例模式一般用在工具类、工厂、本地缓存
+
+
+十、项目缺点：
     （1）一个方法中的逻辑太长，代码达到几百行
     （2）微服务的服务之间调用混乱
 
