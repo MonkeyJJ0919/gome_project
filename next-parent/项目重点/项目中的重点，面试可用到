@@ -60,7 +60,8 @@
     （1）监听连接状态  ConnectionStateListener
     （2）监听节点变化  TreeCache
 
-五、
+五、xcloud-file-util
+1、IniFileReader 中使用HashTable来保存 文件服务器连接相关的属性， 从而保证线程安全。
 
 
 十、项目缺点：
