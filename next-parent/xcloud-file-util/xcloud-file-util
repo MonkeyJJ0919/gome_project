@@ -1,0 +1,3 @@
+1、FDFS文件管理
+
+2、IniFileReader 中使用HashTable来保存 文件服务器连接相关的属性， 从而保证线程安全。

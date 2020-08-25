@@ -15,6 +15,8 @@
 1、消息推送，使用类注解，来减少if的判断，从而进行不同类型的的消息的分发，见图片 1-1.
     MessagePushJob类pushDispacher方法
 
+2、对于不同限定类型的消息，可以使用线程池来进行推送，从而提高效率。
+
 
 三、xcloud-common-utils
 1、使用反射+自定义注解的方式，进行请求参数的校验
@@ -46,11 +48,19 @@
             return obj;
         }
 
-3、单例模式一般用在工具类、工厂、本地缓存
+3、单例模式一般用在工具类、工厂、本地缓存、ZookeeperClient
 
 
-四、xcloud-config
+四、xcloud-config：zookeeper管理器
 1、使用ResourceBundle 来获取properties中的配置信息
+2、使用TreeSet获取某个路径下最小的子节点数据，用于CS获取CM地址
+3、使用了CuratorFramwork框架
+4、使用递归方法，初始化zookeeper的节点数据
+5、使用了两个监听
+    （1）监听连接状态  ConnectionStateListener
+    （2）监听节点变化  TreeCache
+
+五、
 
 
 十、项目缺点：
