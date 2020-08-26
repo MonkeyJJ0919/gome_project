@@ -63,12 +63,51 @@
 五、xcloud-file-util
 1、IniFileReader 中使用HashTable来保存 文件服务器连接相关的属性， 从而保证线程安全。
 
+2、使用fastDfs进行文件管理
+    （1）大致逻辑：首先维护一个fastDfs文件服务器地址（InetSocketAddress）列表。然后从文件地址列表中取得一个InetSocketAddress地址，并创建Socket。
+        socket打开连接，组装要传输文件的Header、body，并进行一系列的文件大小的校验。然后使用socket进行流传输。 然后使用socket接收fastDfs服务器的
+        返回结果。
+
+    （2）从地址列表中获取地址的逻辑很简单，就是简单的轮询获取。此时或进行加锁，来保证线程安全。
+
+六、xcloud-generic-service
+1、通过spring的事件发布机制，来实现 属性值的初始化
+
+      /**
+       * @author wanglinyong
+       */
+      public class ResourceLoadApplicationListener implements ApplicationListener<ApplicationEnvironmentPreparedEvent>, Ordered {
+          private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+          private static final String RESOURCE_PATH = "classpath:generic-service.properties";
+          public static final int DEFAULT_ORDER = Ordered.HIGHEST_PRECEDENCE + 5;
+
+          @Override
+          public void onApplicationEvent(ApplicationEnvironmentPreparedEvent event) {
+              ConfigurableEnvironment environment = event.getEnvironment();
+              try {
+                  environment.getPropertySources().addLast(new ResourcePropertySource(RESOURCE_PATH));
+                  logger.info("Load generic service resource.");
+              } catch (IOException e) {
+                  logger.error("Load generic service resource error!", e);
+              }
+          }
+
+          @Override
+          public int getOrder() {
+              return DEFAULT_ORDER;
+          }
+      }
+
+
 
 十、项目缺点：
     （1）一个方法中的逻辑太长，代码达到几百行
     （2）微服务的服务之间调用混乱
 
+    （3）企鹅平台消息推送，使用了两层 mq 跳转复杂，消耗时间。
+
 
 十一、项目逻辑比较复杂的地方
-    （1）消息推送
+    （1）消息推送 的 逻辑最为 复杂
     （2）文章管理

@@ -1,0 +1,74 @@
+1、通过spring的事件发布机制，来实现 属性值的初始化
+
+    /**
+     * @author wanglinyong
+     */
+    public class ResourceLoadApplicationListener implements ApplicationListener<ApplicationEnvironmentPreparedEvent>, Ordered {
+        private Logger logger = LoggerFactory.getLogger(this.getClass());
+
+        private static final String RESOURCE_PATH = "classpath:generic-service.properties";
+        public static final int DEFAULT_ORDER = Ordered.HIGHEST_PRECEDENCE + 5;
+
+        @Override
+        public void onApplicationEvent(ApplicationEnvironmentPreparedEvent event) {
+            ConfigurableEnvironment environment = event.getEnvironment();
+            try {
+                environment.getPropertySources().addLast(new ResourcePropertySource(RESOURCE_PATH));
+                logger.info("Load generic service resource.");
+            } catch (IOException e) {
+                logger.error("Load generic service resource error!", e);
+            }
+        }
+
+        @Override
+        public int getOrder() {
+            return DEFAULT_ORDER;
+        }
+    }
+
+2、使用spring.factories文件进行类的加载
+
+
+3、使用监听器获取applicationContext。
+    public class SpringContextUtil implements ApplicationListener<ContextRefreshedEvent>, Ordered {
+        private static ApplicationContext applicationContext;
+
+        /**
+         * 获取上下文
+         *
+         * @return
+         */
+        public static ApplicationContext getApplicationContext() {
+            return applicationContext;
+        }
+
+        /**
+         * 通过名字获取上下文中的bean
+         *
+         * @param name
+         * @return
+         */
+        public static Object getBean(String name) {
+            return applicationContext.getBean(name);
+        }
+
+        /**
+         * 通过类型获取上下文中的bean
+         *
+         * @param requiredType
+         * @return
+         */
+        public static Object getBean(Class<?> requiredType) {
+            return applicationContext.getBean(requiredType);
+        }
+
+        @Override
+        public void onApplicationEvent(ContextRefreshedEvent event) {
+            applicationContext = event.getApplicationContext();
+        }
+
+        @Override
+        public int getOrder() {
+            return Ordered.HIGHEST_PRECEDENCE - 100;
+        }
+    }

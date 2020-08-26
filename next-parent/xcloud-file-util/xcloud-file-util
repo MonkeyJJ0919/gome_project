@@ -1,3 +1,17 @@
 1、FDFS文件管理
 
 2、IniFileReader 中使用HashTable来保存 文件服务器连接相关的属性， 从而保证线程安全。
+
+3、xcloud-file-util
+  1、IniFileReader 中使用HashTable来保存 文件服务器连接相关的属性， 从而保证线程安全。
+
+  2、使用fastDfs进行文件管理
+      （1）大致逻辑：首先维护一个fastDfs文件服务器地址（InetSocketAddress）列表。然后从文件地址列表中取得一个InetSocketAddress地址，并创建Socket。
+          socket打开连接，组装要传输文件的Header、body，并进行一系列的文件大小的校验。然后使用socket进行流传输。 然后使用socket接收fastDfs服务器的
+          返回结果。
+
+      （2）从地址列表中获取地址的逻辑很简单，就是简单的轮询获取。此时或进行加锁，来保证线程安全。
+
+      （3）直接在socket创建的时候设置超时时间
+
+      （4）自定义编解码类，事实上就是 字节数组+偏移量的 普通类

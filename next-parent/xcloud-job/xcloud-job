@@ -1,0 +1,13 @@
+1、定时任务的线程池配置
+    //所有的定时任务都放在一个线程池中，定时任务启动时使用不同都线程。
+    public class ScheduleConfig implements SchedulingConfigurer {
+        @Override
+        public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
+            //设定一个长度10的定时任务线程池
+            taskRegistrar.setScheduler(Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors()));
+        }
+    }
+
+2、AppUserMessageSetDbCacheSyncJob  同步DB和Redis中的用户数据
+（1）需要加分布式锁，jedis的setNX方法
+（2）对于Redis中的用户数据，采用的是Hash结构
