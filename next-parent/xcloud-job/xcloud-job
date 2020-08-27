@@ -11,3 +11,13 @@
 2、AppUserMessageSetDbCacheSyncJob  同步DB和Redis中的用户数据
 （1）需要加分布式锁，jedis的setNX方法
 （2）对于Redis中的用户数据，采用的是Hash结构
+
+
+3、DeviceAttrPushJob 设备属性消息推送
+
+
+4、LoadTimerJob  每天凌晨 0点，加载设备的定时任务。
+（1）定时任务放入mongo中，TimerTask表为基表，Timer表为任务执行中间表
+
+（2）情景模式联动 也放在mongo中， Scene表。 executeReport表 是场景的执行记录表
+    1）设备联动的顺序由在mongo中存储的顺序保证，遍历list，一次执行联动的设备
