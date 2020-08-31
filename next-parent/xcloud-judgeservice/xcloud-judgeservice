@@ -1,0 +1,15 @@
+1、JudgeRulesController  规则校验管理（Rule表在mongo中）
+（1）根据天气来触发规则
+
+（2）根据时间来触发规则
+
+（3）根据设备属性来触发规则
+
+
+2、PanelRulesController  面板规则管理 mongo中panelRules表
+（1）根据设备属性来触发规则
+
+3、TimerController  定时任务管理
+（1）向mongo的timer表中添加任务
+（2）从mongo的timer表中删除任务
+（2）将任务从timerTask中加载到timer中
