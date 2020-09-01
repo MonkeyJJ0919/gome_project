@@ -1,0 +1,37 @@
+一、该模块提供对app的统一接口
+
+1、BindController  设备绑定基础接口，相关表：t_house、t_room、t_house_device、t_house_member、user、device
+（1）管理员添加用户的控制权限
+    1）逻辑：（没有搞分布式事务，而是用大量的打印日志，通过跟踪日志来处理异常）
+        查询user表，校验用户是否存在
+        查询user_device表，校验用户是否是该设备的管理员
+        对用户和设备绑定操作加分布式锁 jedis.setNx()
+        根据gid判断是否是第三方云设备
+        如果是云对端设备，则创建云对端的设备绑定对象；如果是云对云的设备，则创建云对云的设备绑定对象。（此处用到了模板方法模式，继承，多态）
+        如果设网关设备，则将上一步的对象包装一层，成为网关绑定对象
+        将绑定信息放入kafka中
+        调用绑定模板的绑定方法，该方法为模板方法模式。
+            preValidate();   --预校验，如校验did、gid、uid、model、third_cloud_id等
+            validatePin();   --校验pin码
+            if (bindFrom == Integer.parseInt(ThirdCloudConstants.HISENSE_THIRD_ID)) {
+                postHandle();
+                saveOrUpdateDevice();
+                cleanAndSaveUserDevice();
+            } else {
+                saveOrUpdateDevice();  --保存更新设备：查询原来是否存在设备，不存在则新增，存在则更新。如果存在多条设备，则抛出异常。
+                cleanAndSaveUserDevice();  --清除和保存用户设备关系：查看当前设备是否与用户存在绑定关系，查询到这个设备有没有被管理员绑定，没绑定则作为管理员添加，绑定了管理员则作为普通用户添加。如果新管理员与老管理员不一致，则先解绑老管理员。保存新的用户和设备绑定关系
+                postHandle();  --后处理：更新cs对应的型号缓存，dispatcher刷新局部缓存。如果是被分享的用户，则推送分享信息。
+            }
+
+
+（2） 扫码分享设备
+    逻辑：
+        查询device_share表查询二维码信息
+        校验二维码过期时间
+        通过二维码取得设备id，从而获得设备相关的信息
+        然后调用设备和用户绑定的接口
+        绑定成功后，记录日志
+
+
+ 2、UserController
+ （1）用户设备绑定接口

@@ -99,6 +99,20 @@
           }
       }
 
+七、xcloud-personal-openapi
+1、redis中 使用hash存储 型号信息、用户信息
+
+2、缓存中存储的信息：第三方属性信息、型号信息、用户信息、各种状态值、用户设备绑定信息等等
+
+
+3、mongo中存储的信息
+    （1）executeReport：情景模式执行记录
+    （2）panelRules：面板联动规则
+    （3）rules：联动规则
+    （4）online：设备、用户上下线信息
+    （5）scene：情景模式
+    （6）timer：任务执行中间表
+    （7）timerTask：定时任务表
 
 
 十、项目缺点：

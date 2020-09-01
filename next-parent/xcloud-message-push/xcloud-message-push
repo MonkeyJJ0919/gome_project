@@ -1,0 +1,9 @@
+1、MsgPushController  消息推送
+（1）异步推送（把消息放入rocketmq中）
+
+（2）同步推送（直接调用推送中心服务，包括国美推送、斐讯的推送）
+
+2、SmsController  短信推送
+（1）同步推送（将消息插入dbo的tb_queue表中）
+
+（2）异步推送（将消息放入rocketmq中）
