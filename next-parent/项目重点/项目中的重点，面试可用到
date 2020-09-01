@@ -107,8 +107,8 @@
 
 3、mongo中存储的信息
     （1）executeReport：情景模式执行记录
-    （2）panelRules：面板联动规则
-    （3）rules：联动规则
+    （2）panelRules：场景-联动规则
+    （3）rules：联动-联动规则
     （4）online：设备、用户上下线信息
     （5）scene：情景模式
     （6）timer：任务执行中间表

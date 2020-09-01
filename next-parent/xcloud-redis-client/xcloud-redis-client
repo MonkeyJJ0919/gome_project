@@ -1,0 +1,3 @@
+1、redis分片：ShardedJedisSentinelPool类
+（1）哨兵list 监控  master list
+（2）每个哨兵占用一个线程来监听master的变化，如果master发生变化，则重新进行redis分片的初始化
