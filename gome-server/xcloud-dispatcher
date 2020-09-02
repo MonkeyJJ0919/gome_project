@@ -1,0 +1,2 @@
+1、转发服务器：
+    对于从app、企鹅后台的请求进行URLConnection转发给CS服务器（生产有5台服务器），URLConnection建立TCP长连接。
