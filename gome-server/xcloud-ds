@@ -1,0 +1,14 @@
+1、链接接入服务，设备注册
+    逻辑：（1）BasePackageDecoder  进行byte转为BasePackage对象
+          （2）DSServerReaderHandler 调用DistributeService进行设备注册
+
+
+2、ds服务器使用BasePackageDecoder自己处理粘包、半包，处理逻辑如下：（只有接收端才会有粘包、半包的问题，发送端不会有这种问题）
+    （1）使用0xAA，0xBB 作为分隔符。
+    （2）粘包、半包的处理
+    （3）将ByteBuf转为BasePackage对象
+    （4）后续的处理
+
+    具体的分析见BasePackageDecoder类。
+
+    在 国美通讯协议3 对 协议2 进行了优化，使用Protobuf对粘包、半包、编解码进行优化。
