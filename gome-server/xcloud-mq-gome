@@ -1,0 +1,32 @@
+1、HandlerDispatch  的单例模式
+public class HandlerDispatch {
+    private static HandlerDispatch handlerDispatch = null;
+    public static HandlerDispatch getHandlerDispatch() {
+        if (null == handlerDispatch)
+            synchronized (HandlerDispatch.class) {
+                if (null == handlerDispatch) {
+                    handlerDispatch = new HandlerDispatch();
+                }
+            }
+        return handlerDispatch;
+    }
+
+2、线程调度类HandlerDispatch
+    （1）用到了多线程，synchronized锁， await 和notify
+
+    （2）锁池 和 等待池  的 解释：https://blog.csdn.net/djzhao/article/details/79410229
+
+    （3）wait和sleep的区别：
+        1）wait会释放锁，可以用notify和notifyall来唤醒。wait、notify、notifyall只能在同步块或者同步方法中使用。
+        2）Thread.sleep不释放锁，可以指定时间来唤醒，只能通过interrupt来中断。
+
+
+3、xcloud-mq-gome项目逻辑：
+    （1）C2cConsumerListener用来监听mq中 云对云的 消息：云对云上报的消息直接发送给kafka
+        NcsConsumerListener 用来监听mq中 ncs 服务器发布的消息：发送给大数据的消息、存储到mysql和hbase的消息、处理设备的运行时间消息。
+
+    （2）使用HandlerDispatch 调用多线程 对不同的消息进行分发处理：
+        线程池为自定义线程池：核心线程数为100，最大线程数为10000，保活时间为30s。
+
+    （3）存储到mysql的消息包括：连接信息、登录信息、用户操作信息。
+        发送给大数据的消息包括：opt、post、connect、fault、device_attr、lifecycle、alarm
